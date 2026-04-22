@@ -1,0 +1,38 @@
+{
+  "template": "template.jpg",
+  "output_dir": "../output",
+  "dpi": 300,
+  "fields": {
+    "numero": {
+      "bbox": [370, 631, 1650, 1331],
+      "font": "../fonts/SairaCondensed-Black.ttf",
+      "font_size": 900,
+      "color": "#000000",
+      "align": "center",
+      "valign": "middle"
+    },
+    "qr": {
+      "bbox": [1844, 731, 2344, 1231],
+      "border": 1,
+      "fg_color": "#000000",
+      "bg_color": "#FFFFFF"
+    },
+    "nombre": {
+      "bbox": [510, 1357, 1510, 1457],
+      "font": "../fonts/Inter-Regular.ttf",
+      "font_size": 180,
+      "color": "#111111",
+      "align": "center",
+      "valign": "middle",
+      "auto_shrink": true
+    },
+    "ritmo": {
+      "bbox": [1967, 1260, 2280, 1350],
+      "font": "../fonts/Inter-Medium.ttf",
+      "font_size": 70,
+      "color": "#E63946",
+      "align": "center",
+      "valign": "middle"
+    }
+  }
+}
