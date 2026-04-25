@@ -35,6 +35,7 @@ class Layout:
     nombre: TextField
     ritmo: TextField
     base_dir: Path = field(default_factory=Path.cwd)
+    output_size: tuple[int, int] | None = None
 
     def resolve(self, p: str | Path) -> Path:
         path = Path(p)
@@ -101,15 +102,31 @@ def load_layout(path: str | Path) -> Layout:
     if not output_dir.is_absolute():
         output_dir = base_dir / output_dir
 
+    dpi = int(raw.get("dpi", 300))
+
+    output_size = None
+    if "output_size_mm" in raw:
+        raw_size = raw["output_size_mm"]
+        if not isinstance(raw_size, list) or len(raw_size) != 2:
+            raise ValueError(f"output_size_mm must be [width_mm, height_mm], got {raw_size!r}")
+        w_mm, h_mm = float(raw_size[0]), float(raw_size[1])
+        output_size = (round(w_mm * dpi / 25.4), round(h_mm * dpi / 25.4))
+    elif "output_size" in raw:
+        raw_size = raw["output_size"]
+        if not isinstance(raw_size, list) or len(raw_size) != 2:
+            raise ValueError(f"output_size must be [width_px, height_px], got {raw_size!r}")
+        output_size = (int(raw_size[0]), int(raw_size[1]))
+
     layout = Layout(
         template=template,
         output_dir=output_dir,
-        dpi=int(raw.get("dpi", 300)),
+        dpi=dpi,
         numero=_text_field("numero", fields["numero"]),
         qr=_qr_field(fields["qr"]),
         nombre=_text_field("nombre", fields["nombre"]),
         ritmo=_text_field("ritmo", fields["ritmo"]),
         base_dir=base_dir,
+        output_size=output_size,
     )
 
     for f in (layout.numero, layout.nombre, layout.ritmo):

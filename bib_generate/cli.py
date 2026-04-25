@@ -50,9 +50,14 @@ def generate(runners_path, layout_path, output_override, dry_run, filter_dorsal)
     click.echo(f"Output:   {out_dir}")
     click.echo(f"Runners:  {len(runners)}")
 
+    if layout.output_size:
+        click.echo(f"Resize:   {layout.output_size[0]}x{layout.output_size[1]}")
+
     with click.progressbar(runners, label="Generando dorsales") as bar:
         for runner in bar:
             img = render_bib(template, runner, layout)
+            if layout.output_size:
+                img = img.resize(layout.output_size, Image.LANCZOS)
             filename = f"dorsal_{str(runner.dorsal).zfill(3)}_{_slug(runner.nombre)}.jpg"
             img.save(out_dir / filename, "JPEG", quality=95, dpi=(layout.dpi, layout.dpi))
 

@@ -1,6 +1,7 @@
 {
   "template": "template.jpg",
   "output_dir": "../output",
+  "output_size_mm": [180, 120],
   "dpi": 300,
   "fields": {
     "numero": {
